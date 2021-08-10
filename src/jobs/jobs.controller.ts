@@ -14,6 +14,7 @@ import { JobsService } from './jobs.service';
 import { JobDto } from './dtos/job.dto';
 import { IJob } from './interfaces/job.interface';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
+import { ValidationPipe } from './pipes/validation.pipe';
 
 @Controller('jobs')
 @UseFilters(HttpExceptionFilter)
@@ -37,12 +38,15 @@ export class JobsController {
   }
 
   @Post()
-  create(@Body() job: JobDto): Promise<IJob> {
+  create(@Body(new ValidationPipe()) job: JobDto): Promise<IJob> {
     return this.jobsService.create(job);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() job: JobDto): Promise<IJob> {
+  update(
+    @Param('id') id: string,
+    @Body(new ValidationPipe()) job: JobDto,
+  ): Promise<IJob> {
     return this.jobsService.update(id, job);
   }
 
