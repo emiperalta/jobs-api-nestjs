@@ -1,12 +1,18 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { JobsController } from './jobs/jobs.controller';
-import { JobsService } from './jobs/jobs.service';
+import { JobsModule } from './jobs/jobs.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController, JobsController],
-  providers: [AppService, JobsService],
+  imports: [
+    ConfigModule.forRoot(),
+    JobsModule,
+    MongooseModule.forRoot(process.env.MONGODB_URI),
+  ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
