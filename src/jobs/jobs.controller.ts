@@ -3,27 +3,37 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Post,
   Put,
+  UseFilters,
 } from '@nestjs/common';
 
 import { JobsService } from './jobs.service';
 import { JobDto } from './dtos/job.dto';
 import { IJob } from './interfaces/job.interface';
+import { HttpExceptionFilter } from './filters/http-exception.filter';
 
 @Controller('jobs')
+@UseFilters(HttpExceptionFilter)
 export class JobsController {
   constructor(private readonly jobsService: JobsService) {}
 
   @Get()
-  findAll(): Promise<IJob[]> {
-    return this.jobsService.findAll();
+  async findAll(): Promise<IJob[]> {
+    return await this.jobsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<IJob> {
-    return this.jobsService.findOne(id);
+  async findOne(@Param('id') id: string): Promise<IJob> {
+    try {
+      const job = await this.jobsService.findOne(id);
+      if (!job) throw new NotFoundException();
+      return job;
+    } catch (err) {
+      throw new NotFoundException();
+    }
   }
 
   @Post()
