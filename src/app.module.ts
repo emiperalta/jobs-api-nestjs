@@ -10,7 +10,9 @@ import { JobsModule } from './jobs/jobs.module';
   imports: [
     ConfigModule.forRoot(),
     JobsModule,
-    MongooseModule.forRoot(process.env.MONGODB_URI),
+    MongooseModule.forRoot(process.env.MONGODB_URI, {
+      useFindAndModify: false,
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
