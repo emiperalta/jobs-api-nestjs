@@ -13,8 +13,8 @@ import {
 import { JobsService } from './jobs.service';
 import { JobDto } from './dtos/job.dto';
 import { IJob } from './interfaces/job.interface';
-import { HttpExceptionFilter } from './filters/http-exception.filter';
-import { ValidationPipe } from './pipes/validation.pipe';
+import { HttpExceptionFilter } from '../filters/http-exception.filter';
+import { ValidationPipe } from '../pipes/validation.pipe';
 
 @Controller('jobs')
 @UseFilters(HttpExceptionFilter)
