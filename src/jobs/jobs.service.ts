@@ -22,11 +22,11 @@ export class JobsService {
     return await newJob.save();
   }
 
-  async update(id: string, job: IJob): Promise<IJob> {
-    return await this.jobModel.findByIdAndUpdate(id, job, { new: true });
+  async update(id: string, job: IJob): Promise<void> {
+    await this.jobModel.findByIdAndUpdate(id, job, { new: true });
   }
 
-  async delete(id: string): Promise<IJob> {
-    return await this.jobModel.findByIdAndDelete(id);
+  async delete(id: string): Promise<void> {
+    await this.jobModel.findByIdAndDelete(id);
   }
 }
