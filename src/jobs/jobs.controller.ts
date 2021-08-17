@@ -42,13 +42,9 @@ export class JobsController {
   @ApiOkResponse({ description: 'A job with specific ID' })
   @ApiNotFoundResponse({ description: 'Job not found' })
   async findOne(@Param('id') id: string): Promise<IJob> {
-    try {
-      const job = await this.jobsService.findOne(id);
-      if (!job) throw new NotFoundException();
-      return job;
-    } catch (err) {
-      throw new NotFoundException();
-    }
+    const job = await this.jobsService.findOne(id);
+    if (!job) throw new NotFoundException();
+    return job;
   }
 
   @Post()
@@ -66,11 +62,7 @@ export class JobsController {
     @Param('id') id: string,
     @Body(new ValidationPipe()) job: JobDto,
   ): Promise<void> {
-    try {
-      return await this.jobsService.update(id, job);
-    } catch (err) {
-      throw new BadRequestException();
-    }
+    return await this.jobsService.update(id, job);
   }
 
   @Delete(':id')
@@ -78,10 +70,6 @@ export class JobsController {
   @ApiNoContentResponse({ description: 'Job deleted successfuly' })
   @ApiBadRequestResponse({ description: 'Bad Request' })
   async delete(@Param('id') id: string): Promise<void> {
-    try {
-      return await this.jobsService.delete(id);
-    } catch (err) {
-      throw new BadRequestException();
-    }
+    return await this.jobsService.delete(id);
   }
 }
